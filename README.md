@@ -9,7 +9,7 @@ Poki 離線版 Unity 6 WebGL 成品。原始來源：<https://poki.com/zh/g/mari
 | Unity 版本 | 6000.5.4f1（Unity 6） |
 | 畫面尺寸 | 960 × 600 |
 | WebGL | WebGL 2.0，未開啟 threads |
-| 目前版本 | 1.4 |
+| 目前版本 | 1.5 |
 
 ## 啟動方式
 
@@ -36,6 +36,7 @@ python -m http.server 8781
 MarinaClubRush/
 ├── index.html              # 入口：window.config + 離線 PokiSDK stub
 ├── unity-2020.js           # 載入器、載入畫面與 Poki bridge
+├── autopilot.js            # 自動遊玩模式（合成輸入，預設關閉）
 ├── 啟動 Marina Club Rush.bat
 ├── Build/                  # Unity loader / framework / .data / .wasm
 ├── StreamingAssets/       # 遊戲串流資源（音樂）
@@ -43,6 +44,13 @@ MarinaClubRush/
 ├── screenshots/            # 載入輪播截圖
 └── README.md
 ```
+
+## 自動遊玩模式
+
+- 左上角 **Auto** 按鈕切換開關，預設關閉；也可呼叫 `window.MarinaAutopilot.toggle() / enable() / disable() / isActive()`。
+- 成品是編譯後的 Unity WebGL，未暴露內部狀態 API，因此自動駕駛在 JS 層以**合成鍵盤事件**（WASD 與方向鍵）驅動角色，依隨機方向分段漫遊。
+- 限制：bot 不讀取魚群、金幣或碰撞狀態，屬漫遊式自動駕駛，不保證完成全部目標，也可能在障礙旁停留；關閉後會釋放所有按住的按鍵。
+- 未更動 `Build/` 內的 wasm/data 成品。
 
 ## 離線改動說明
 
@@ -56,6 +64,11 @@ MarinaClubRush/
 `Build/*.wasm`（約 19 MB）與 `Build/*.data`（約 9 MB）直接提交進 git，**未使用 Git LFS**：本專案為單機靜態離線成品，版本數有限，直接提交的成本可接受；若日後改版頻繁、倉庫體積明顯膨脹，再評估改用 LFS。
 
 ## 版本記錄
+
+### 1.5（2026-11-15）
+
+- 新增自動遊玩模式：左上角 Auto 按鈕切換，JS 層合成輸入漫遊，預設關閉。
+- 補上自動駕駛實作方式與限制說明。
 
 ### 1.4（2026-11-15）
 
